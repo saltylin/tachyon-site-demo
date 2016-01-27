@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Running Apache Flink on Tachyon - Tachyon 0.9.0-SNAPSHOT Documentation</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="../css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="../css/main.css">
+
+    <script src="../js/vendor/modernizr-2.6.1-respond-1.1.0.min.js"></script>
+
+    <link rel="stylesheet" href="../css/pygments-default.css">
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-47563775-2', 'tachyon-project.org');
+        ga('send', 'pageview');
+    </script>
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade
+    your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install
+    Google Chrome Frame</a> to better experience this site.</p>
+<![endif]-->
+
+<!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+<div class="navbar navbar-fixed-top" id="topbar">
+    <div class="navbar-inner">
+        <div class="container">
+            <a href="index.html">
+                <div class="brand" style="display:table;">
+                    <div style="position:relative;display:table-cell;vertical-align:middle;">
+                        <img src="../img/logo-white.png" alt="Tachyon Logo" style="height:34px;"/>
+                        <div style="position:absolute;right:0;top:30px;text-shadow:none;">
+                            <span class="version">0.9.0-SNAPSHOT</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            <ul class="nav">
+                
+                    
+                    <!-- overviewPage only has one element -->
+                    <li><a href="index.html">Overview</a></li>
+                
+
+                
+                
+                    <li class="dropdown">
+                        
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">User Guide<b
+                                class="caret"></b></a>
+                        
+
+                        <ul class="dropdown-menu">
+                            
+                            
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Getting-Started.html">
+                                        
+                                            Getting Started
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Architecture.html">
+                                        
+                                            Architecture Overview
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-Locally.html">
+                                        
+                                            Tachyon on Local Machine
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-on-Virtual-Box.html">
+                                        
+                                            Tachyon on Virtual Box
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-on-a-Cluster.html">
+                                        
+                                            Tachyon Standalone on a Cluster
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-Fault-Tolerant.html">
+                                        
+                                            Tachyon Standalone with Fault Tolerance
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-on-EC2.html">
+                                        
+                                            Tachyon on EC2
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-on-EC2-Mesos.html">
+                                        
+                                            Tachyon on EC2 with Mesos
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-Fault-Tolerant-on-EC2.html">
+                                        
+                                            Tachyon on EC2 with Fault Tolerance
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Tachyon-on-EC2-Yarn.html">
+                                        
+                                            Tachyon on EC2 with YARN
+                                        
+                                    </a></li>
+                                
+                            
+                            
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown">
+                        
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Features<b
+                                class="caret"></b></a>
+                        
+
+                        <ul class="dropdown-menu">
+                            
+                            
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Command-Line-Interface.html">
+                                        
+                                            Command Line Interface
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuration-Settings.html">
+                                        
+                                            Configuration Settings
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/File-System-API.html">
+                                        
+                                            Filesystem API
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Lineage-API.html">
+                                        
+                                            Lineage API
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Metrics-System.html">
+                                        
+                                            Metrics System
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Mounting-Tachyon-FS-with-FUSE.html">
+                                        
+                                            Tachyon-FUSE
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Tiered-Storage-on-Tachyon.html">
+                                        
+                                            Tiered Storage
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Unified-and-Transparent-Namespace.html">
+                                        
+                                            Unified Namespace
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Web-Interface.html">
+                                        
+                                            Web Interface
+                                        
+                                    </a></li>
+                                
+                            
+                            
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown">
+                        
+                            <a href="#" class="dropdown-toggle active" data-toggle="dropdown">Frameworks<b
+                                class="caret"></b></a>
+                        
+
+                        <ul class="dropdown-menu">
+                            
+                            
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Spark-on-Tachyon.html">
+                                        
+                                            Apache Spark
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Running-Hadoop-MapReduce-on-Tachyon.html">
+                                        
+                                            Apache Hadoop MapReduce
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <li class="active">
+                                        <a>
+                                            
+                                                Apache Flink
+                                            
+                                        </a>
+                                    </li>
+                                
+                            
+                            
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown">
+                        
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Under Stores<b
+                                class="caret"></b></a>
+                        
+
+                        <ul class="dropdown-menu">
+                            
+                            
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuring-Tachyon-with-S3.html">
+                                        
+                                            Tachyon with S3
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuring-Tachyon-with-Swift.html">
+                                        
+                                            Tachyon with Swift
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuring-Tachyon-with-GlusterFS.html">
+                                        
+                                            Tachyon with GlusterFS
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuring-Tachyon-with-HDFS.html">
+                                        
+                                            Tachyon with HDFS
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Configuring-Tachyon-with-OSS.html">
+                                        
+                                            Tachyon with OSS
+                                        
+                                    </a></li>
+                                
+                            
+                            
+                        </ul>
+                    </li>
+                
+                    <li class="dropdown">
+                        
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dev Resources<b
+                                class="caret"></b></a>
+                        
+
+                        <ul class="dropdown-menu">
+                            
+                            
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Building-Tachyon-Master-Branch.html">
+                                        
+                                            Building Master Branch
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Contributing-to-Tachyon.html">
+                                        
+                                            Contributor Guide
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Developer-Tips.html">
+                                        
+                                            Developer Tips
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Integrating-Under-Storage-Systems.html">
+                                        
+                                            Integrating Under Storage Systems
+                                        
+                                    </a></li>
+                                
+                            
+                                
+                                    <!-- Use the prefix .. to change the absulote url to relative url -->
+                                    <li><a href="../en/Powered-By-Tachyon.html">
+                                        
+                                            Powered By Tachyon
+                                        
+                                    </a></li>
+                                
+                            
+                            
+                                <li><a href="https://tachyon.atlassian.net/browse/TACHYON">Reporting Issues (JIRA)</a></li>
+                                <li class="divider"></li>
+                                <li><p>Presentations</p></li>
+                                <li><a href="http://goo.gl/kcKeTp">Strata and Hadoop World 2015</a></li>
+                                <li><a href="http://goo.gl/0HpqeS">Tachyon Workshop 2015</a></li>
+                                <li><a href="http://goo.gl/fP9qkF">Strata and Hadoop World 2014</a></li>
+                                <li><a href="http://goo.gl/DKrE4M">Spark Summit 2014</a></li>
+                                <li><a href="http://goo.gl/AHgz0E">Strata and Hadoop World 2013</a></li>
+                            
+                        </ul>
+                    </li>
+                
+
+                <!-- Generator the language selector at the right of the navigation bar -->
+                
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">English<b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        
+                            <!-- Use the prefix .. to change the absulote url to relative url -->
+                            <li><a href="../en/Running-Flink-on-Tachyon.html">English</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="content">
+    <h1 class="title">Running Apache Flink on Tachyon</h1>
+    
+    <p>This guide describes how to get Tachyon running with <a href="http://flink.apache.org/">Apache Flink</a>, so
+that you can easily work with files stored in Tachyon.</p>
+
+<h1 id="prerequisites">Prerequisites</h1>
+
+<p>The prerequisite for this part is that you have
+<a href="Java-Setup.html">Java</a>. We also assume that you have set up
+Tachyon in accordance to these guides <a href="Running-Tachyon-Locally.html">Local Mode</a> or
+<a href="Running-Tachyon-on-a-Cluster.html">Cluster Mode</a>.</p>
+
+<p>Please find the guides for setting up Flink on the Apache Flink <a href="http://flink.apache.org/">website</a>.</p>
+
+<h1 id="configuration">Configuration</h1>
+
+<p>Apache Flink allows to use Tachyon through a generic file system wrapper for the Hadoop file system.
+Therefore, the configuration of Tachyon is done mostly in Hadoop configuration files.</p>
+
+<h4 id="set-property-in-core-sitexml">Set property in <code class="highlighter-rouge">core-site.xml</code></h4>
+
+<p>If you have a Hadoop setup next to the Flink installation, add the following property to the
+<code class="highlighter-rouge">core-site.xml</code> configuration file:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;property&gt;</span>
+  <span class="nt">&lt;name&gt;</span>fs.tachyon.impl<span class="nt">&lt;/name&gt;</span>
+  <span class="nt">&lt;value&gt;</span>tachyon.hadoop.TFS<span class="nt">&lt;/value&gt;</span>
+<span class="nt">&lt;/property&gt;</span>
+</code></pre>
+</div>
+
+<p>In case you don’t have a Hadoop setup, you have to create a file called <code class="highlighter-rouge">core-site.xml</code> with the
+following contents:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;configuration&gt;</span>
+  <span class="nt">&lt;property&gt;</span>
+    <span class="nt">&lt;name&gt;</span>fs.tachyon.impl<span class="nt">&lt;/name&gt;</span>
+    <span class="nt">&lt;value&gt;</span>tachyon.hadoop.TFS<span class="nt">&lt;/value&gt;</span>
+  <span class="nt">&lt;/property&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="specify-path-to-core-sitexml-in-confflink-configyaml">Specify path to <code class="highlighter-rouge">core-site.xml</code> in <code class="highlighter-rouge">conf/flink-config.yaml</code></h4>
+
+<p>Next, you have to specify the path to the Hadoop configuration in Flink. Open the 
+<code class="highlighter-rouge">conf/flink-config.yaml</code> file in the Flink root directory and set the <code class="highlighter-rouge">fs.hdfs.hadoopconf</code>
+configuration value to the <strong>directory</strong> containing the <code class="highlighter-rouge">core-site.xml</code>. (For newer Hadoop versions,
+the directory usually ends with <code class="highlighter-rouge">etc/hadoop</code>.)</p>
+
+<h4 id="make-the-tachyon-client-jar-available-to-flink">Make the Tachyon Client jar available to Flink</h4>
+
+<p>In the last step, we need to make the Tachyon <code class="highlighter-rouge">jar</code> file available to Flink, because it contains the
+configured <code class="highlighter-rouge">tachyon.hadoop.TFS</code> class.</p>
+
+<p>There are different ways to achieve that:</p>
+
+<ul>
+  <li>Put the <code class="highlighter-rouge">tachyon-client-0.8.2-jar-with-dependencies.jar</code> file into the
+<code class="highlighter-rouge">lib</code> directory of Flink (for local and standalone cluster setups)</li>
+  <li>Put the <code class="highlighter-rouge">tachyon-client-0.8.2-jar-with-dependencies.jar</code> file into the
+<code class="highlighter-rouge">ship</code> directory for Flink on YARN.</li>
+  <li>Specify the location of the jar file in the <code class="highlighter-rouge">HADOOP_CLASSPATH</code> environment variable (make sure its
+available on all cluster nodes as well). For example like this:</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code><span class="nb">export </span><span class="nv">HADOOP_CLASSPATH</span><span class="o">=</span>/pathToTachyon/client/target/tachyon-client-0.8.2-jar-with-dependencies.jar
+</code></pre>
+</div>
+
+<h1 id="using-tachyon-with-flink">Using Tachyon with Flink</h1>
+
+<p>To use Tachyon with Flink, just specify paths with the <code class="highlighter-rouge">tachyon://</code> scheme.</p>
+
+<p>If Tachyon is installed locally, a valid path would look like this
+<code class="highlighter-rouge">tachyon://localhost:19998/user/hduser/gutenberg</code>.</p>
+
+    <!-- Main hero unit for a primary marketing message or call to action -->
+    <!--<div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <p><a class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+            </div>-->
+
+    <!-- Example row of columns -->
+    <!--<div class="row">
+        <div class="span4">
+            <h2>Heading</h2>
+            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+            <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+               </div>
+                <div class="span4">
+                    <h2>Heading</h2>
+                    <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn" href="#">View details &raquo;</a></p>
+                </div>
+            </div>
+
+            <hr>-->
+
+    <footer>
+        <hr>
+        <p style="text-align: center; veritcal-align: middle; color: #999;">
+            Tachyon is being developed by a <a href="https://github.com/amplab/tachyon/graphs/contributors">large community</a>.
+        </p>
+    </footer>
+
+</div>
+<!-- /container -->
+
+<script src="../js/vendor/jquery-1.8.0.min.js"></script>
+<script src="../js/vendor/bootstrap.min.js"></script>
+<script src="../js/main.js"></script>
+
+<!-- A script to fix internal hash links because we have an overlapping top bar.
+     Based on https://github.com/twitter/bootstrap/issues/193#issuecomment-2281510 -->
+<script>
+    $(function () {
+        function maybeScrollToHash() {
+            if (window.location.hash && $(window.location.hash).length) {
+                var newTop = $(window.location.hash).offset().top - $('#topbar').height() - 5;
+                $(window).scrollTop(newTop);
+            }
+        }
+
+        $(window).bind('hashchange', function () {
+            maybeScrollToHash();
+        });
+        // Scroll now too in case we had opened the page on a hash, but wait 1 ms because some browsers
+        // will try to do *their* initial scroll after running the onReady handler.
+        setTimeout(function () {
+            maybeScrollToHash();
+        }, 1)
+    })
+</script>
+
+<script src="../js/scrollspy.js"></script>
+
+</body>
+</html>
